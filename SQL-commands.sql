@@ -39,6 +39,29 @@ ALTER TABLE employees ADD COLUMN department VARCHAR(50);
 ALTER TABLE employees DROP COLUMN department;
 ALTER TABLE employees MODIFY salary DECIMAL(12, 2);
 
+-------------------------------- added multiple rows and columns by looping
+DELIMITER //
+CREATE PROCEDURE insert_100_users()
+BEGIN
+  DECLARE i INT DEFAULT 1;
+  WHILE i <= 100 DO
+    INSERT INTO users (name, email)
+    VALUES (
+      CONCAT('User', i),
+      CONCAT('user', i, '@example.com')
+    );
+    SET i = i + 1;
+  END WHILE;
+END//
+DELIMITER ;
+
+-- Run it:
+CALL insert_100_users();
+
+-- Optional: remove the procedure after running
+DROP PROCEDURE insert_100_users;
+--------------------------------
+
 Data Manipulation Commands----------------------------------
 -- Insert data into a table
 INSERT INTO employees (name, position, salary, hire_date)
